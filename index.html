@@ -35,7 +35,7 @@
             padding: 20px;
         }
 
-        .panel {
+        .game-container {
             background: var(--panel-bg);
             border: 2px solid var(--terminal-border);
             border-radius: 12px;
@@ -48,18 +48,6 @@
             align-items: center;
             gap: 20px;
             position: relative;
-        }
-
-        .screen {
-            display: none;
-            width: 100%;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .screen.active {
-            display: flex;
         }
 
         .header {
@@ -76,79 +64,6 @@
             margin-bottom: 5px;
         }
 
-        .form-group {
-            width: 100%;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            color: #8b949e;
-            font-size: 0.8rem;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-
-        .form-group input {
-            width: 100%;
-            background: #040d06;
-            border: 1px solid var(--terminal-border);
-            color: var(--glow-green);
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--glow-green);
-            box-shadow: 0 0 5px rgba(63, 185, 80, 0.3);
-        }
-
-        .error-msg {
-            color: var(--glow-red);
-            font-size: 0.8rem;
-            margin-top: 5px;
-            height: 15px;
-        }
-
-        .btn {
-            width: 100%;
-            background: var(--accent-green);
-            border: none;
-            border-radius: 6px;
-            color: white;
-            font-size: 1rem;
-            font-weight: bold;
-            padding: 12px;
-            cursor: pointer;
-            letter-spacing: 1px;
-            transition: background 0.2s;
-            margin-bottom: 10px;
-        }
-
-        .btn:hover {
-            background: var(--accent-green-bright);
-        }
-        
-        .btn:disabled {
-            background: #30363d;
-            color: #8b949e;
-            cursor: not-allowed;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--terminal-border);
-            color: var(--text-main);
-        }
-
-        .btn-outline:hover {
-            background: #21262d;
-            border-color: #8b949e;
-        }
-
         .status-bar {
             display: flex;
             justify-content: space-between;
@@ -159,6 +74,7 @@
             width: 100%;
         }
 
+        /* Lock Display Screen */
         .lock-display {
             background: #040d06;
             border: 2px solid var(--terminal-border);
@@ -184,7 +100,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding-left: 12px;
+            padding-left: 12px; /* Offset spacing */
             transition: color 0.2s;
         }
 
@@ -194,9 +110,6 @@
             margin-top: 10px;
             height: 20px;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 0 10px;
         }
 
         .dot {
@@ -227,6 +140,7 @@
             text-transform: uppercase;
         }
 
+        /* Keypad */
         .keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -258,322 +172,321 @@
             border-color: var(--glow-green);
         }
 
+        .key:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Controls / Actions */
+        .controls {
+            width: 100%;
+        }
+
+        .btn {
+            width: 100%;
+            background: var(--accent-green);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 12px;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-green-bright);
+        }
+
+        /* Scanline Overlay for Cyberpunk Vibe */
         .scanlines {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+            background: linear-gradient(
+                rgba(18, 16, 16, 0) 50%, 
+                rgba(0, 0, 0, 0.25) 50%
+            );
             background-size: 100% 4px;
             pointer-events: none;
             border-radius: 8px;
             opacity: 0.6;
         }
 
-        .error-glow { border-color: var(--glow-red) !important; box-shadow: inset 0 0 15px rgba(248, 81, 73, 0.4) !important; }
-        .error-text { color: var(--glow-red) !important; text-shadow: 0 0 10px var(--glow-red) !important; }
-        .success-glow { border-color: var(--glow-green) !important; box-shadow: inset 0 0 15px rgba(63, 185, 80, 0.4) !important; }
-
-        .leaderboard-table-container {
-            width: 100%;
-            max-height: 250px;
-            overflow-y: auto;
-            border: 1px solid var(--terminal-border);
-            border-radius: 6px;
-            background: #0d1117;
+        /* Feedback States */
+        .error-glow {
+            border-color: var(--glow-red) !important;
+            box-shadow: inset 0 0 15px rgba(248, 81, 73, 0.4) !important;
         }
 
-        .leaderboard-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
+        .error-text {
+            color: var(--glow-red) !important;
+            text-shadow: 0 0 10px var(--glow-red) !important;
         }
 
-        .leaderboard-table th {
-            background: #21262d;
-            color: #8b949e;
-            text-align: left;
-            padding: 8px;
-            position: sticky;
-            top: 0;
-        }
-
-        .leaderboard-table td {
-            padding: 8px;
-            border-bottom: 1px solid #21262d;
-        }
-
-        .leaderboard-table tr:last-child td { border-bottom: none; }
-        .rank-col { width: 40px; text-align: center; color: #8b949e; }
-        .score-col { text-align: right; color: var(--glow-green); font-weight: bold; }
-        
-        #loading-indicator {
-            color: var(--glow-green);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
+        .success-glow {
+            border-color: var(--glow-green) !important;
+            box-shadow: inset 0 0 15px rgba(63, 185, 80, 0.4) !important;
         }
     </style>
 </head>
 <body>
 
-    <div class="panel">
+    <div class="game-container">
         <div class="header">
             <div class="title">HACK THE LOCK</div>
-        </div>
-
-        <!-- Start Screen -->
-        <div id="start-screen" class="screen active">
-            <div id="auth-status" class="error-msg" style="color: #8b949e; text-align: center; margin-bottom: 10px;">Connecting to secure network...</div>
-            
-            <div class="form-group">
-                <label for="player-name">OPERATIVE NAME</label>
-                <input type="text" id="player-name" placeholder="Enter Alias" autocomplete="off" maxlength="15">
-            </div>
-            
-            <div class="form-group">
-                <label for="player-class">CLASS / UNIT</label>
-                <input type="text" id="player-class" placeholder="e.g. Cybersec, Alpha-1" autocomplete="off" maxlength="15">
-            </div>
-
-            <div id="start-error" class="error-msg"></div>
-
-            <button class="btn" id="init-btn" disabled>INITIALIZE SEQUENCE</button>
-            <button class="btn btn-outline" id="view-board-btn">VIEW LEADERBOARD</button>
-        </div>
-
-        <!-- Game Screen -->
-        <div id="game-screen" class="screen">
             <div class="status-bar">
                 <span>STAGE: <strong id="stage-num" style="color: white;">1</strong></span>
-                <span>TARGET: <strong id="player-display" style="color: white;"></strong></span>
-            </div>
-
-            <div class="lock-display" id="lock-display">
-                <div class="scanlines"></div>
-                <div class="state-text" id="state-text">INITIALIZING</div>
-                <div class="digits-view" id="digits-view">----</div>
-                <div class="dots-view" id="dots-view"></div>
-            </div>
-
-            <div class="keypad">
-                <button class="key" data-value="1">1</button>
-                <button class="key" data-value="2">2</button>
-                <button class="key" data-value="3">3</button>
-                <button class="key" data-value="4">4</button>
-                <button class="key" data-value="5">5</button>
-                <button class="key" data-value="6">6</button>
-                <button class="key" data-value="7">7</button>
-                <button class="key" data-value="8">8</button>
-                <button class="key" data-value="9">9</button>
-                <button class="key" style="visibility: hidden;"></button>
-                <button class="key" data-value="0">0</button>
-                <button class="key" style="visibility: hidden;"></button>
-            </div>
-
-            <div class="controls" style="width: 100%;">
-                <button class="btn" id="start-btn" style="display: none;">START HACK</button>
-                <button class="btn btn-outline" id="abort-btn" style="display: none; margin-top: 10px;">ABORT & LEADERBOARD</button>
+                <span>HIGHEST: <strong id="high-score" style="color: white;">0</strong></span>
             </div>
         </div>
 
-        <!-- Leaderboard Screen -->
-        <div id="leaderboard-screen" class="screen">
-            <h3 style="color: var(--glow-green); margin-bottom: 5px;">TOP OPERATIVES</h3>
-            
-            <div id="loading-indicator" style="display: none;">FETCHING SECURE DATA...</div>
+        <div class="lock-display" id="lock-display">
+            <div class="scanlines"></div>
+            <div class="state-text" id="state-text">INITIALIZING</div>
+            <div class="digits-view" id="digits-view">----</div>
+            <div class="dots-view" id="dots-view"></div>
+        </div>
 
-            <div class="leaderboard-table-container">
-                <table class="leaderboard-table">
-                    <thead>
-                        <tr>
-                            <th class="rank-col">#</th>
-                            <th>NAME</th>
-                            <th>CLASS</th>
-                            <th class="score-col">STAGE</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leaderboard-body">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
+        <div class="keypad">
+            <button class="key" data-value="1">1</button>
+            <button class="key" data-value="2">2</button>
+            <button class="key" data-value="3">3</button>
+            <button class="key" data-value="4">4</button>
+            <button class="key" data-value="5">5</button>
+            <button class="key" data-value="6">6</button>
+            <button class="key" data-value="7">7</button>
+            <button class="key" data-value="8">8</button>
+            <button class="key" data-value="9">9</button>
+            <button class="key" style="visibility: hidden;"></button>
+            <button class="key" data-value="0">0</button>
+            <button class="key" style="visibility: hidden;"></button>
+        </div>
 
-            <button class="btn" id="back-menu-btn" style="margin-top: 10px;">RETURN TO MENU</button>
+        <div class="controls">
+            <button class="btn" id="start-btn">START HACK</button>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Firebase Configuration & Initialization
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'hack-the-lock-demo';
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-            apiKey: "demo-key",
-            projectId: "demo-project"
-        };
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        
-        let currentUser = null;
-
-        async function initAuth() {
-            try {
-                if (initialAuthToken) {
-                    const userCredential = await signInWithCustomToken(auth, initialAuthToken);
-                    currentUser = userCredential.user;
-                } else {
-                    const userCredential = await signInAnonymously(auth);
-                    currentUser = userCredential.user;
-                }
-                document.getElementById('auth-status').textContent = "Network Secured.";
-                document.getElementById('auth-status').style.color = "var(--glow-green)";
-                document.getElementById('init-btn').disabled = false;
-                
-                // Hide success message after a bit
-                setTimeout(() => {
-                    document.getElementById('auth-status').style.display = 'none';
-                }, 2000);
-            } catch (error) {
-                console.error("Auth Error:", error);
-                document.getElementById('auth-status').textContent = "Auth Failed. Offline Mode.";
-                // Still allow play in offline mode
-                document.getElementById('init-btn').disabled = false;
-            }
-        }
-
-        initAuth();
-
-        async function saveScore(playerName, playerClass, stageReached) {
-            if (!currentUser) return;
-            
-            const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', currentUser.uid);
-            try {
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    // Only update if new stage is higher
-                    const data = docSnap.data();
-                    if (stageReached > data.stage) {
-                        await setDoc(docRef, { 
-                            name: playerName, 
-                            class: playerClass, 
-                            stage: stageReached,
-                            timestamp: Date.now()
-                        }, { merge: true });
-                    }
-                } else {
-                    await setDoc(docRef, { 
-                        name: playerName, 
-                        class: playerClass, 
-                        stage: stageReached,
-                        timestamp: Date.now()
-                    });
-                }
-            } catch (e) {
-                console.error("Failed to save score:", e);
-            }
-        }
-
-        async function loadLeaderboard() {
-            const tbody = document.getElementById('leaderboard-body');
-            const loader = document.getElementById('loading-indicator');
-            tbody.innerHTML = '';
-            loader.style.display = 'block';
-
-            if (!currentUser) {
-                loader.textContent = "OFFLINE - UNABLE TO FETCH DATA";
-                loader.style.color = "var(--glow-red)";
-                return;
-            }
-
-            try {
-                const colRef = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
-                const snapshot = await getDocs(colRef);
-                
-                let scores = [];
-                snapshot.forEach(doc => scores.push(doc.data()));
-                
-                // Sort in memory (No complex queries rule)
-                scores.sort((a, b) => b.stage - a.stage || a.timestamp - b.timestamp);
-                
-                loader.style.display = 'none';
-
-                if (scores.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#8b949e;">No operatives found.</td></tr>`;
-                    return;
-                }
-
-                // Render top 50
-                const topScores = scores.slice(0, 50);
-                topScores.forEach((score, index) => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td class="rank-col">${index + 1}</td>
-                        <td>${escapeHTML(score.name || 'Unknown')}</td>
-                        <td>${escapeHTML(score.class || 'N/A')}</td>
-                        <td class="score-col">${score.stage || 0}</td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-            } catch (e) {
-                console.error("Failed to load leaderboard:", e);
-                loader.textContent = "ERROR FETCHING SECURE DATA";
-                loader.style.color = "var(--glow-red)";
-            }
-        }
-
-        function escapeHTML(str) {
-            return str.replace(/[&<>'"]/g, 
-                tag => ({
-                    '&': '&amp;',
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    "'": '&#39;',
-                    '"': '&quot;'
-                }[tag] || tag)
-            );
-        }
-
+    <script>
+        // Game State Variables
         let sequence = [];
         let playerInput = [];
         let stage = 1;
+        let highScore = 0;
         let isDisplaying = false;
         let isAcceptingInput = false;
-        let currentOperativeName = "";
-        let currentOperativeClass = "";
 
-        // UI Element References
-        const screens = {
-            start: document.getElementById('start-screen'),
-            game: document.getElementById('game-screen'),
-            leaderboard: document.getElementById('leaderboard-screen')
-        };
-        
-        const inputs = {
-            name: document.getElementById('player-name'),
-            cls: document.getElementById('player-class')
-        };
+        // DOM Elements
+        const digitsView = document.getElementById('digits-view');
+        const dotsView = document.getElementById('dots-view');
+        const stateText = document.getElementById('state-text');
+        const lockDisplay = document.getElementById('lock-display');
+        const stageNumEl = document.getElementById('stage-num');
+        const highScoreEl = document.getElementById('high-score');
+        const startBtn = document.getElementById('start-btn');
+        const keys = document.querySelectorAll('.key');
 
-        const els = {
-            digits: document.getElementById('digits-view'),
-            dots: document.getElementById('dots-view'),
-            stateText: document.getElementById('state-text'),
-            lockDisplay: document.getElementById('lock-display'),
-            stageNum: document.getElementById('stage-num'),
-            playerDisplay: document.getElementById('player-display'),
-            startError: document.getElementById('start-error'),
-            startBtn: document.getElementById('start-btn'),
-            abortBtn: document.getElementById('abort-btn'),
-            initBtn: document.getElementById('init-btn'),
-            viewBoardBtn: document.getElementById('view-board-btn'),
-            backMenuBtn: document.getElementByI
+        // Sounds using Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playTone(freq, type = 'sine', duration = 0.1) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playBeep(num) {
+            const freqs = [261, 293, 329, 349, 392, 440, 493, 523, 587, 659];
+            playTone(freqs[num] || 400, 'sine', 0.08);
+        }
+
+        function playErrorSound() {
+            playTone(150, 'sawtooth', 0.3);
+        }
+
+        function playSuccessSound() {
+            playTone(523, 'triangle', 0.1);
+            setTimeout(() => playTone(659, 'triangle', 0.15), 100);
+            setTimeout(() => playTone(783, 'triangle', 0.2), 200);
+        }
+
+        // Initialize Game
+        startBtn.addEventListener('click', startGame);
+
+        function startGame() {
+            stage = 1;
+            sequence = [];
+            stageNumEl.textContent = stage;
+            startBtn.style.display = 'none';
+            nextRound();
+        }
+
+        function nextRound() {
+            playerInput = [];
+            isAcceptingInput = false;
+            
+            // Add next digit
+            sequence.push(Math.floor(Math.random() * 10));
+            
+            updateStageDisplay();
+            showSequence();
+        }
+
+        function updateStageDisplay() {
+            stageNumEl.textContent = stage;
+            renderDots();
+        }
+
+        function renderDots() {
+            dotsView.innerHTML = '';
+            for (let i = 0; i < sequence.length; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                if (i < playerInput.length) {
+                    dot.classList.add('filled');
+                } else if (i === playerInput.length && isAcceptingInput) {
+                    dot.classList.add('active');
+                }
+                dotsView.appendChild(dot);
+            }
+        }
+
+        // Display sequence logic
+        async function showSequence() {
+            isDisplaying = true;
+            stateText.textContent = "INTERCEPTING...";
+            stateText.style.color = "#8b949e";
+            digitsView.textContent = "";
+            digitsView.classList.remove('error-text');
+
+            // Initial delay
+            await sleep(600);
+
+            // Flash digits sequentially
+            for (let i = 0; i < sequence.length; i++) {
+                digitsView.textContent = sequence[i];
+                playBeep(sequence[i]);
+                await sleep(500);
+                digitsView.textContent = "";
+                await sleep(150);
+            }
+
+            // Reveal phase finished
+            stateText.textContent = "ENTER CODE";
+            stateText.style.color = "var(--glow-green)";
+            digitsView.textContent = "";
+            isDisplaying = false;
+            isAcceptingInput = true;
+            renderDots();
+        }
+
+        // Handle Input
+        keys.forEach(key => {
+            key.addEventListener('click', () => {
+                const val = key.getAttribute('data-value');
+                if (val !== null) handleInput(parseInt(val));
+            });
+        });
+
+        // Keyboard Support
+        window.addEventListener('keydown', (e) => {
+            if (!isAcceptingInput) return;
+            if (e.key >= '0' && e.key <= '9') {
+                const num = parseInt(e.key);
+                // Visual key press effect
+                const btn = Array.from(keys).find(k => k.getAttribute('data-value') == num);
+                if (btn) {
+                    btn.classList.add('pressed');
+                    setTimeout(() => btn.classList.remove('pressed'), 100);
+                }
+                handleInput(num);
+            }
+        });
+
+        function handleInput(digit) {
+            if (!isAcceptingInput || isDisplaying) return;
+
+            playBeep(digit);
+            playerInput.push(digit);
+            
+            // Temporary flash digit as entered
+            digitsView.textContent = digit;
+            setTimeout(() => {
+                if (isAcceptingInput) digitsView.textContent = "";
+            }, 200);
+
+            renderDots();
+
+            // Check correctness of current entry
+            const currentIdx = playerInput.length - 1;
+            if (playerInput[currentIdx] !== sequence[currentIdx]) {
+                handleFailure();
+                return;
+            }
+
+            // Check if full sequence matched
+            if (playerInput.length === sequence.length) {
+                handleSuccess();
+            }
+        }
+
+        async function handleSuccess() {
+            isAcceptingInput = false;
+            stateText.textContent = "ACCESS GRANTED";
+            lockDisplay.classList.add('success-glow');
+            playSuccessSound();
+
+            await sleep(1000);
+            
+            lockDisplay.classList.remove('success-glow');
+            stage++;
+            if (stage - 1 > highScore) {
+                highScore = stage - 1;
+                highScoreEl.textContent = highScore;
+            }
+            
+            nextRound();
+        }
+
+        async function handleFailure() {
+            isAcceptingInput = false;
+            playErrorSound();
+            
+            stateText.textContent = "LOCKOUT DETECTED";
+            stateText.style.color = "var(--glow-red)";
+            digitsView.textContent = "ERR";
+            digitsView.classList.add('error-text');
+            lockDisplay.classList.add('error-glow');
+
+            await sleep(1500);
+
+            lockDisplay.classList.remove('error-glow');
+            digitsView.classList.remove('error-text');
+            digitsView.textContent = "----";
+            dotsView.innerHTML = "";
+            stateText.textContent = "SYSTEM LOCKED";
+            
+            startBtn.style.display = 'block';
+            startBtn.textContent = 'RETRY HACK';
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    </script>
+</body>
+</html>
